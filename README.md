@@ -8,7 +8,6 @@
 - [Estrutura de Arquivos](#-estrutura-de-arquivos)
 - [Implementação](#-implementação)
 - [Destaques Técnicos](#-destaques-técnicos)
-- [Consultas de Exemplo](#-consultas-de-exemplo)
 - [Diagrama ER](#-diagrama-er)
 - [Recriação do Ambiente](#-recriação-do-ambiente)
 - [Autor](#-autor)
