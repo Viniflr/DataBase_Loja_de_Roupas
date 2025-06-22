@@ -1,8 +1,6 @@
 # 🏬 Sistema de Banco de Dados para Loja de Roupas
 
-![MySQL](https://img.shields.io/badge/MySQL-8.0+-005C84?logo=mysql&logoColor=white)
-![Workbench](https://img.shields.io/badge/MySQL%20Workbench-8.0+-4479A1)
-![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?logo=github)
+[![My Skills](https://skillicons.dev/icons?i=mysql,github)](https://skillicons.dev)
 
 ## 📋 Tabela de Conteúdos
 - [Estrutura de Arquivos](#-estrutura-de-arquivos)
