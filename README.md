@@ -67,11 +67,9 @@ SOURCE caminho/para/o/arquivo.sql;
 ✅ **Auditoria com Triggers**  
 
 ## 👨‍💻 Autores
-**Vinícius Fernandes**  
+**Vinícius Fernandes**  [![My Skills](https://skillicons.dev/icons?i=github)]([https://skillicons.dev](https://github.com/Viniflr))
 **Pedro Enrico**  
 **Larissa Beatriz**  
-[![GitHub](https://img.shields.io/badge/GitHub-Profile-181717?logo=github)](https://github.com/Viniflr)  
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Profile-0077B5?logo=linkedin)](https://www.linkedin.com/in/seu-perfil)
 
 ---
 
