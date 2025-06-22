@@ -68,8 +68,8 @@ SOURCE caminho/para/o/arquivo.sql;
 
 ## 👨‍💻 Autores
 **Vinícius Fernandes**  
-**Pedro Enrico**
-**Larissa Beatriz**
+**Pedro Enrico**  
+**Larissa Beatriz**  
 [![GitHub](https://img.shields.io/badge/GitHub-Profile-181717?logo=github)](https://github.com/Viniflr)  
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Profile-0077B5?logo=linkedin)](https://www.linkedin.com/in/seu-perfil)
 
