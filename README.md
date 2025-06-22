@@ -65,9 +65,8 @@ SOURCE caminho/para/o/arquivo.sql;
 ✅ **Auditoria com Triggers**  
 
 ## 👨‍💻 Autores
-**Vinícius Fernandes**  
-**Pedro Enrico**  
-**Larissa Beatriz**  
+| [<img loading="lazy" src="https://avatars.githubusercontent.com/u/119247208?s=400&u=a41a122510e3447159fb98c4797d79ff19b43e39&v=4" width=115><br><sub>Vinícius Fernandes</sub>](https://github.com/Viniflr) |  [<img loading="lazy" src="https://avatars.githubusercontent.com/u/198750490?v=4" width=115><br><sub>Larissa Beatriz</sub>](https://github.com/laags6) |  [<img loading="lazy" src="https://avatars.githubusercontent.com/u/198752208?v=4" width=115><br><sub>Pedro Enrico</sub>](https://github.com/pedrocaribe06) |
+| :---: | :---: | :---: |
 
 ---
 
