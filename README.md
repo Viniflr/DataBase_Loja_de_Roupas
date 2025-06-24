@@ -18,17 +18,17 @@ O sistema permite não apenas o armazenamento desses dados, mas também a execu�
 
 ## 📂 Estrutura de Arquivos
 
-* `DROP.sql`: Script para exclusão de todas as tabelas, views, procedures, functions e triggers, garantindo um ambiente limpo para recriação.
-* `SCHEMA.sql`: Contém as instruções DDL (Data Definition Language) para a criação do esquema (`lojaRoupas`) e de todas as tabelas, incluindo a definição de chaves primárias e estrangeiras.
-* `ALTER_TABLES.sql`: Inclui scripts DDL para realizar alterações na estrutura das tabelas existentes (adição/modificação/renomeação de colunas, adição de constraints e índices).
-* `FUNCTIONS.sql`: Define as funções personalizadas (UDFs) que encapsulam lógicas de negócio e retornam valores escalares.
-* `PROCEDURES.sql`: Contém as procedures armazenadas, que executam uma série de comandos SQL para realizar tarefas complexas e automatizadas.
-* `TRIGGERS.sql`: Contém a definição das triggers, que são executadas automaticamente em resposta a eventos específicos (INSERT, UPDATE, DELETE) nas tabelas.
-* `INSERT.sql`: Script DML (Data Manipulation Language) para a inserção de dados iniciais em todas as tabelas do banco de dados. Cada tabela possui no mínimo 10 registros.
-* `UPDATE_DELETE.sql`: Contém exemplos de scripts DML para atualização e exclusão de dados, demonstrando a manipulação dos registros.
-* `VIEWS.sql`: Define as views, que são tabelas virtuais baseadas no resultado de uma consulta SQL, facilitando o acesso a dados combinados e sumarizados.
-* `QUERIES.sql`: Contém uma série de consultas DQL (Data Query Language) complexas, incluindo JOINs, GROUP BY, subconsultas, e exemplos de utilização das Functions, Procedures e Views criadas.
-* `TEST.sql`: Script dedicado a testes de todas as Functions, Procedures e Triggers implementadas, verificando seu correto funcionamento.
+* `DROP.sql`: Remove todos os objetos do banco de dados para iniciar um ambiente limpo.
+* `SCHEMA.sql`: Cria o esquema (`lojaRoupas`) e todas as tabelas principais.
+* `ALTER_TABLES.sql`: Realiza modificações na estrutura das tabelas existentes (adição/alteração de colunas, constraints, etc.).
+* `FUNCTIONS.sql`: Define funções personalizadas para lógicas de negócio.
+* `PROCEDURES.sql`: Contém procedures armazenadas para automação de tarefas.
+* `TRIGGERS.sql`: Define triggers que são disparadas automaticamente por eventos no banco.
+* `INSERT.sql`: Popula as tabelas com dados iniciais para testes.
+* `UPDATE_DELETE.sql`: Exemplos de scripts para atualização e exclusão de dados.
+* `VIEWS.sql`: Cria views para facilitar consultas e relatórios.
+* `QUERIES.sql`: Contém consultas DQL complexas e exemplos de uso das funcionalidades.
+* `TEST.sql`: Script dedicado a testar o funcionamento de todas as Functions, Procedures e Triggers.
 
 ## ⚙️ Como Configurar e Executar o Projeto
 
