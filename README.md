@@ -79,4 +79,4 @@ Para configurar e executar o banco de dados em seu ambiente, siga os passos abai
 ---
 
 🔹 *Projeto desenvolvido para a disciplina de Banco de Dados*  
-🔹 *Atualizado em: 20/06/2024*
+🔹 *Atualizado em: 23/06/2024*
