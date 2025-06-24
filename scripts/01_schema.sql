@@ -1,11 +1,13 @@
+-- Define o esquema do banco de dados
 CREATE SCHEMA IF NOT EXISTS lojaRoupas;
 USE lojaRoupas;
 
+-- Configurações para desabilitar verificações de integridade temporariamente
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
---------------------------------------------------------------------------------
+-- --------------------------------------------------------------------------------
 -- Tabelas de Clientes
 CREATE TABLE clientes (
     CPF VARCHAR(14) NOT NULL PRIMARY KEY,
@@ -25,13 +27,12 @@ CREATE TABLE enderecoCli (
     bairro VARCHAR(60) NOT NULL,
     rua VARCHAR(80) NOT NULL,
     numero INT NOT NULL,
-    comp VARCHAR(45),
+    comp VARCHAR(45), -- Mantido 'comp' aqui, será renomeado via ALTER TABLE
     cep VARCHAR(9) NOT NULL,
-    FOREIGN KEY (clientes_cpf)
-        REFERENCES clientes (CPF)
+    FOREIGN KEY (clientes_cpf) REFERENCES clientes(CPF) ON DELETE CASCADE
 );
 
---------------------------------------------------------------------------------
+-- --------------------------------------------------------------------------------
 -- Tabelas de Funcionários
 CREATE TABLE funcionarios (
     CPF VARCHAR(14) NOT NULL PRIMARY KEY,
@@ -46,7 +47,8 @@ CREATE TABLE funcionarios (
     cargaHora INT NOT NULL,
     comissao DECIMAL(6,2) NOT NULL,
     dataAdm DATETIME NOT NULL,
-    dataDem DATETIME
+    dataDem DATETIME,
+    idDepartamento INT -- Adicionado aqui para ser populado no INSERT
 );
 
 CREATE TABLE enderecoFunc (
@@ -59,8 +61,7 @@ CREATE TABLE enderecoFunc (
     numero INT NOT NULL,
     comp VARCHAR(45),
     cep VARCHAR(9) NOT NULL,
-    FOREIGN KEY (funcionario_cpf)
-        REFERENCES funcionarios (CPF)
+    FOREIGN KEY (funcionario_cpf) REFERENCES funcionarios(CPF) ON DELETE CASCADE
 );
 
 CREATE TABLE ferias (
@@ -70,7 +71,7 @@ CREATE TABLE ferias (
     anoRef YEAR NOT NULL,
     dataInicio DATE NOT NULL,
     dataFim DATE NOT NULL,
-    FOREIGN KEY (funcionario_cpf) REFERENCES funcionarios (CPF)
+    FOREIGN KEY (funcionario_cpf) REFERENCES funcionarios(CPF) ON DELETE CASCADE
 );
 
 CREATE TABLE dependentes (
@@ -79,10 +80,10 @@ CREATE TABLE dependentes (
     nome VARCHAR(60) NOT NULL,
     dataNasc DATE NOT NULL,
     parentesco VARCHAR(20) NOT NULL,
-    FOREIGN KEY (funcionario_cpf)
-        REFERENCES funcionarios (CPF)
+    FOREIGN KEY (funcionario_cpf) REFERENCES funcionarios(CPF) ON DELETE CASCADE
 );
 
+-- --------------------------------------------------------------------------------
 -- Departamento e Cargo
 CREATE TABLE departamento (
     idDepartamento INT AUTO_INCREMENT PRIMARY KEY,
@@ -91,51 +92,48 @@ CREATE TABLE departamento (
     email VARCHAR(60) NOT NULL,
     respDepartamento VARCHAR(60) NOT NULL,
     cpfGerente VARCHAR(14),
-    FOREIGN KEY (cpfGerente) REFERENCES funcionarios(CPF)
+    FOREIGN KEY (cpfGerente) REFERENCES funcionarios(CPF) ON DELETE SET NULL -- Gerente pode ser removido, mas o departamento fica
 );
 
 CREATE TABLE cargo (
     cbo INT PRIMARY KEY,
     nome VARCHAR(45) NOT NULL,
-    funcionario_cpf VARCHAR(14) NOT NULL,
-    faixaSalarial DECIMAL(10 , 2 ) NOT NULL,
-    FOREIGN KEY (funcionario_cpf)
-        REFERENCES funcionarios (CPF)
+    faixaSalarial DECIMAL(10,2) NOT NULL
 );
 
+-- --------------------------------------------------------------------------------
 -- Plano de Saúde
 CREATE TABLE planoSaude (
     idPlanoSaude INT AUTO_INCREMENT PRIMARY KEY,
     funcionario_cpf VARCHAR(14) NOT NULL,
     numero VARCHAR(45) NOT NULL,
     nome VARCHAR(60) NOT NULL,
-    FOREIGN KEY (funcionario_cpf) REFERENCES funcionarios(CPF)
+    FOREIGN KEY (funcionario_cpf) REFERENCES funcionarios(CPF) ON DELETE CASCADE
 );
 
+-- --------------------------------------------------------------------------------
 -- Vendas
 CREATE TABLE vendas (
     idVendas INT AUTO_INCREMENT PRIMARY KEY,
     clientes_cpf VARCHAR(14) NOT NULL,
     funcionario_cpf VARCHAR(14) NOT NULL,
     dataVenda DATETIME NOT NULL,
-    valorTotal DECIMAL(10 , 2 ) NOT NULL,
-    desconto DECIMAL(5 , 2 ),
-    FOREIGN KEY (clientes_cpf)
-        REFERENCES clientes (CPF),
-    FOREIGN KEY (funcionario_cpf)
-        REFERENCES funcionarios (CPF)
+    valorTotal DECIMAL(10,2) NOT NULL,
+    desconto DECIMAL(5,2),
+    FOREIGN KEY (clientes_cpf) REFERENCES clientes(CPF) ON DELETE CASCADE,
+    FOREIGN KEY (funcionario_cpf) REFERENCES funcionarios(CPF) ON DELETE CASCADE
 );
 
 CREATE TABLE formaPag (
     idFormaPag INT AUTO_INCREMENT PRIMARY KEY,
     id_vendas INT NOT NULL,
-    valorPago DECIMAL(10 , 2 ) NOT NULL,
+    valorPago DECIMAL(10,2) NOT NULL,
     tipo VARCHAR(45) NOT NULL,
     parcela INT,
-    FOREIGN KEY (id_vendas)
-        REFERENCES vendas (idVendas)
+    FOREIGN KEY (id_vendas) REFERENCES vendas(idVendas) ON DELETE CASCADE
 );
 
+-- --------------------------------------------------------------------------------
 -- Produto, Categoria e Fornecedor
 CREATE TABLE categProduto (
     idCategoria INT AUTO_INCREMENT PRIMARY KEY,
@@ -147,26 +145,24 @@ CREATE TABLE fornecedor (
     CNPJ VARCHAR(18) NOT NULL PRIMARY KEY,
     email VARCHAR(60) NOT NULL,
     telefone VARCHAR(15) NOT NULL,
-    nomeForne VARCHAR(60) NOT NULL
+    nomeForne VARCHAR(60) NOT NULL -- Mantido 'nomeForne' aqui, será renomeado via ALTER TABLE
 );
 
 CREATE TABLE produto (
     idProduto INT AUTO_INCREMENT PRIMARY KEY,
     id_fornecedor VARCHAR(18) NOT NULL,
     id_categoria INT NOT NULL,
-    preco DECIMAL(10 , 2 ) NOT NULL,
+    preco DECIMAL(10,2) NOT NULL,
     marca VARCHAR(45),
     descricao VARCHAR(100) NOT NULL,
     cor VARCHAR(45) NOT NULL,
     nomeProduto VARCHAR(60) NOT NULL,
     tamanho CHAR(3) NOT NULL,
-    FOREIGN KEY (id_fornecedor)
-        REFERENCES fornecedor (CNPJ),
-    FOREIGN KEY (id_categoria)
-        REFERENCES categProduto (idCategoria)
+    FOREIGN KEY (id_fornecedor) REFERENCES fornecedor(CNPJ),
+    FOREIGN KEY (id_categoria) REFERENCES categProduto(idCategoria)
 );
 
---------------------------------------------------------------------------------
+-- --------------------------------------------------------------------------------
 -- Endereço Fornecedor
 CREATE TABLE enderecoForne (
     idEnderecoForne INT AUTO_INCREMENT PRIMARY KEY,
@@ -178,27 +174,27 @@ CREATE TABLE enderecoForne (
     numero INT NOT NULL,
     comp VARCHAR(45),
     cep VARCHAR(9) NOT NULL,
-    FOREIGN KEY (fornecedor_cnpj) REFERENCES fornecedor(CNPJ)
+    FOREIGN KEY (fornecedor_cnpj) REFERENCES fornecedor(CNPJ) ON DELETE CASCADE
 );
 
---------------------------------------------------------------------------------
+-- --------------------------------------------------------------------------------
 -- Estoque
 CREATE TABLE estoque (
     idEstoque INT AUTO_INCREMENT PRIMARY KEY,
     id_produto INT NOT NULL,
     qtdDisponivel BIGINT NOT NULL,
     localizacao VARCHAR(60) NOT NULL,
-    FOREIGN KEY (id_produto) REFERENCES produto(idProduto)
+    FOREIGN KEY (id_produto) REFERENCES produto(idProduto) ON DELETE CASCADE
 );
 
---------------------------------------------------------------------------------
+-- --------------------------------------------------------------------------------
 -- Pedidos e Itens dos Pedidos
 CREATE TABLE pedidos (
     idPedidos INT AUTO_INCREMENT PRIMARY KEY,
     clientes_cpf VARCHAR(14) NOT NULL,
     dataPedido DATETIME NOT NULL,
     statusPedido VARCHAR(45) NOT NULL,
-    FOREIGN KEY (clientes_cpf) REFERENCES clientes(CPF)
+    FOREIGN KEY (clientes_cpf) REFERENCES clientes(CPF) ON DELETE CASCADE
 );
 
 CREATE TABLE itemPedidos (
@@ -207,72 +203,11 @@ CREATE TABLE itemPedidos (
     id_produto INT NOT NULL,
     quantidade INT NOT NULL,
     precoUnitario DECIMAL(10,2) NOT NULL,
-    FOREIGN KEY (id_pedido) REFERENCES pedidos(idPedidos),
-    FOREIGN KEY (id_produto) REFERENCES produto(idProduto)
+    FOREIGN KEY (id_pedido) REFERENCES pedidos(idPedidos) ON DELETE CASCADE,
+    FOREIGN KEY (id_produto) REFERENCES produto(idProduto) ON DELETE CASCADE
 );
 
--- Criar tabela de relacionamento entre funcionários e cargos
-CREATE TABLE funcionario_cargo (
-    funcionario_cpf VARCHAR(14) NOT NULL,
-    cbo INT NOT NULL,
-    data_inicio DATE NOT NULL,
-    data_fim DATE,
-    PRIMARY KEY (funcionario_cpf, cbo),
-    FOREIGN KEY (funcionario_cpf) REFERENCES funcionarios(CPF),
-    FOREIGN KEY (cbo) REFERENCES cargo(cbo)
-);
-
--- Adicionar tabela de histórico de preços de produtos
-CREATE TABLE historico_preco (
-    id_historico INT AUTO_INCREMENT PRIMARY KEY,
-    id_produto INT NOT NULL,
-    preco_antigo DECIMAL(10,2) NOT NULL,
-    preco_novo DECIMAL(10,2) NOT NULL,
-    data_alteracao DATETIME NOT NULL,
-    responsavel VARCHAR(60) NOT NULL,
-    FOREIGN KEY (id_produto) REFERENCES produto(idProduto)
-);
-
--- Adicionar tabela de promoções
-CREATE TABLE promocoes (
-    id_promocao INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
-    descricao TEXT,
-    data_inicio DATE NOT NULL,
-    data_fim DATE NOT NULL,
-    desconto DECIMAL(5,2) NOT NULL,
-    id_produto INT,
-    id_categoria INT,
-    FOREIGN KEY (id_produto) REFERENCES produto(idProduto),
-    FOREIGN KEY (id_categoria) REFERENCES categProduto(idCategoria)
-);
-
--- Adicionar tabela de avaliações de produtos
-CREATE TABLE avaliacoes (
-    id_avaliacao INT AUTO_INCREMENT PRIMARY KEY,
-    id_produto INT NOT NULL,
-    clientes_cpf VARCHAR(14) NOT NULL,
-    nota INT NOT NULL CHECK (nota BETWEEN 1 AND 5),
-    comentario TEXT,
-    data_avaliacao DATETIME NOT NULL,
-    FOREIGN KEY (id_produto) REFERENCES produto(idProduto),
-    FOREIGN KEY (clientes_cpf) REFERENCES clientes(CPF)
-);
-
--- Tabela de log para auditoria
-CREATE TABLE auditoria (
-    id_auditoria INT AUTO_INCREMENT PRIMARY KEY,
-    tabela_afetada VARCHAR(50) NOT NULL,
-    operacao VARCHAR(20) NOT NULL,
-    id_registro VARCHAR(100) NOT NULL,
-    usuario VARCHAR(100) NOT NULL,
-    data_hora DATETIME NOT NULL,
-    dados_antigos TEXT,
-    dados_novos TEXT
-);
-
---------------------------------------------------------------------------------
-
+-- Restaura as configurações de integridade
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
