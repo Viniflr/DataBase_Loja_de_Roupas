@@ -3,7 +3,7 @@ USE lojaRoupas;
 -- 1. Adiciona coluna 'rg' na tabela clientes
 ALTER TABLE clientes ADD COLUMN rg VARCHAR(12);
 
--- 2. Altera tipo da coluna 'telefone' em funcionarios para VARCHAR(20)
+-- 2. Altera tipo da coluna 'telefone' em funcionarios para VARCHAR(20);
 ALTER TABLE funcionarios MODIFY COLUMN telefone VARCHAR(20);
 
 -- 3. Adiciona uma nova coluna 'genero' na tabela dependentes
@@ -18,26 +18,23 @@ ALTER TABLE fornecedor ADD CONSTRAINT fornecedor_email_unico UNIQUE (email);
 -- 6. Adiciona coluna 'observacoes' em planoSaude
 ALTER TABLE planoSaude ADD COLUMN observacoes TEXT;
 
--- 7. Define valor padrão para 'statusPedido' na tabela pedidos
+-- 8. Define valor padrão para 'statusPedido' na tabela pedidos
 ALTER TABLE pedidos MODIFY COLUMN statusPedido VARCHAR(45) DEFAULT 'Pendente';
 
--- 8. Adiciona foreign key do departamento em funcionarios
+-- 9. Adiciona foreign key do departamento em funcionarios
 ALTER TABLE funcionarios ADD CONSTRAINT fk_func_dep FOREIGN KEY (idDepartamento) REFERENCES departamento(idDepartamento);
 
--- 9. Altera nome da coluna 'nomeForne' para 'razaoSocial'
+-- 10. Altera nome da coluna 'nomeForne' para 'razaoSocial'
 ALTER TABLE fornecedor CHANGE COLUMN nomeForne razaoSocial VARCHAR(60);
 
--- 10. Adiciona índice para 'dataVenda' em vendas
+-- 11. Adiciona índice para 'dataVenda' em vendas
 ALTER TABLE vendas ADD INDEX idx_dataVenda (dataVenda);
 
--- 11. Aumenta limite do campo 'descricao' em produto
+-- 12. Aumenta limite do campo 'descricao' em produto
 ALTER TABLE produto MODIFY COLUMN descricao VARCHAR(255);
 
--- 12. Torna 'comissao' opcional em funcionarios
+-- 13. Torna 'comissao' opcional em funcionarios
 ALTER TABLE funcionarios MODIFY COLUMN comissao DECIMAL(6,2) NULL;
 
--- 13. Adiciona coluna 'frete' na tabela itemPedidos
-ALTER TABLE itemPedidos ADD COLUMN frete DECIMAL(6,2) DEFAULT 0;
-
--- 14. Altera tipo da coluna 'tamanho' para VARCHAR(5) em produto
+-- 15. Altera tipo da coluna 'tamanho' para VARCHAR(5) em produto
 ALTER TABLE produto MODIFY COLUMN tamanho VARCHAR(5);
